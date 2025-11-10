@@ -20,5 +20,5 @@ jobs:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '17' # version de java
       - run: |
-          mvnw clean install
+          mvn clean install
           echo "build with maven"
