@@ -1,8 +1,8 @@
 name: feat workflow
 on:
   push:
-    branches:
-      - feature/*
+    branches: [develop]
+    types: [open, reopened]
 jobs:
   build-feature:
     # Maquina virtual runner
@@ -10,15 +10,26 @@ jobs:
     steps:
       # Descarga el codigo del repositorio
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: pull and checkout from git repository
       # Solo imprime el texto
         run: |
           echo "Se hizo pull y checkout en el repositorio"
       # Descarga la maquina virtual de java
-      - uses: actions/setup-java@v5
+      - name: setup java 17
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '17' # version de java
-      - run: |
-          mvn clean install
+      - name: Cache maven dependecies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: build maven
+        run: |
+          mvn clean test package
           echo "build with maven"
