@@ -21,8 +21,15 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: '17' # version de java
-      - name: install maven
+          java-version: '17' # version de java 17
+      - name: Cache maven dependecies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: build maven
         run: |
           mvn clean install
           echo "build with maven"
