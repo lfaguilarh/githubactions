@@ -22,14 +22,7 @@ jobs:
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '17' # version de java
-      - name: Cache maven dependecies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: build maven
+      - name: install maven
         run: |
-          mvn clean test package
+          mvn clean install
           echo "build with maven"
