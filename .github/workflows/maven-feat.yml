@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: '17' # version de java
+          java-version: '17' # version de java para version 17
       - name: Cache maven dependecies
         uses: actions/cache@v4
         with:
@@ -29,7 +29,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: build maven
+      - name: build maven and clean
         run: |
           mvn clean test package
           echo "build with maven"
