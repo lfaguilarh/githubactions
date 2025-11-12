@@ -31,5 +31,5 @@ jobs:
             ${{ runner.os }}-maven-
       - name: build maven and clean
         run: |
-          mvn clean install
+          mvn clean test package
           echo "build with maven"
